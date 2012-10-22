@@ -20,7 +20,8 @@
   * isSticky : bool
   * timeOut: int
   *
-  */(function(){
+  */
+(function(){
      Alert = can.Model({// Implement local storage handling
          localStore: function(cb){
              var name = 'alerts-canjs-jquery-widget',
