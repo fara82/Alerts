@@ -1,0 +1,17 @@
+.wrapper {
+    position:fixed;
+    right: 0;
+    top:0;
+    z-index: 9999;
+    width:350px;
+}
+
+.alert {
+    display:none;
+    overflow: auto;
+    clear:both;
+}
+
+.highlight {
+    border: 3px solid;
+}

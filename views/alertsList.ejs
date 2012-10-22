@@ -1,0 +1,5 @@
+<div class="alerts-list-div">
+    <% list(alerts, function(alrt){ %>
+        <div <%= (el)-> el.html(can.view('views/alertView.ejs', {alrt: alrt})) %>></div>
+    <% }) %>
+</div>

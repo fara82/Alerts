@@ -1,0 +1,8 @@
+<div class="alerts-list-div">
+    <% list(alerts, function(alrt){ %>
+        <div class="alert alert-error<% if(alrt.attr('isSticky')){%> sticky<%}%>" id="alert-id-<%= alrt.attr('id') %>"
+        <%= (el)-> el.data('alrt', alrt) %>>
+            <%== can.view.render('views/alertView.ejs', {alrt: alrt}) %>
+        </div>
+    <% }) %>
+</div>

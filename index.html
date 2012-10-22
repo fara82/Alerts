@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Contacts Manager</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/contacts.css">
+        <link rel="stylesheet" href="css/alerts.css">
+        <link rel="stylesheet" href="css/index.css">
+    </head>
+    <body>
+        <div id="alerts-display-wrap"></div>
+        <div class="container">
+            <div class="row">
+                <header class="span12">
+                    <h1>Contacts Manager</h1>
+                </header>
+            </div>
+            <div class="row">
+                <div class="span3">
+                    <div id="alerts-input" class="well">
+                        <div>
+                            <label>Manually Create an Alert</label>
+                            <input type="text" placeholder="Enter your alert...">
+                        </div>
+                        <div>
+                            <a class="btn btn-small warn btn-warning" href="javascript://">
+                                Warn
+                            </a>
+                             <a class="btn btn-small info btn-info" href="javascript://">
+                                Info
+                            </a>
+                             <a class="btn btn-small success btn-success" href="javascript://">
+                                Success
+                            </a>
+                        </div>
+                    </div>
+                    <div class="well">
+                        <a class="btn btn-large btn-primary" href="javascript://" id="new-contact">
+                            <i class="icon-plus icon-white"></i> New Contact
+                        </a>
+                        <nav id="filter"></nav>
+                    </div>
+                </div>
+                <div class="span9">
+                    <div id="create"></div>
+                    <div id="contacts"></div>
+                </div>
+            </div>
+        </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+        <script src="js/can.jquery.js"></script>
+        <script src="js/can.fixture.js"></script>
+        <script src="js/alerts.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/contacts.js"></script>
+        <script src="js/index.js"></script>
+    </body>
+</html>
