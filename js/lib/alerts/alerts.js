@@ -142,7 +142,7 @@
         '{Alert} created' : function(list, ev, alrt){
             //this.alertsList.push(alrt);
             //alrt.setCls();
-            var append = this.element.append(can.view('views/alertView.ejs', {alrt: alrt}));
+            var append = this.element.append(can.view('js/views/alertView.ejs', {alrt: alrt}));
             alrt.element = append.find("#alert-id-" + alrt.attr('id'));
             $(alrt.element).fadeIn('slow');
             alrt.setTimerToDestroy();
