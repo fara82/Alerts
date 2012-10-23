@@ -4,7 +4,7 @@
         init: function(element){
             this.input = this.element.find("input");
             this.input.val("");
-            //this.alertsSystem = new Alerts("#alerts-display-wrap");
+            this.alertsSystem = new Alerts("#alerts-display-wrap");
         },
         sendAlert: function(type){
             var alrtArr = {
@@ -16,7 +16,7 @@
                 can.extend(alrtArr, {type : type});
             }
 
-            AlertsSystem.sendAlert(alrtArr);
+            this.alertsSystem.sendAlert(alrtArr);
         },
         'a.warn click': function(el){
             this.sendAlert("warn");
