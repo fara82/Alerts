@@ -21,6 +21,10 @@
         'a.success click': function(el){
             this.sendAlert("success");
             this.input.val("");
+        },
+        'a.error click': function(el){
+            this.sendAlert("error");
+            this.input.val("");
         }
     });
 

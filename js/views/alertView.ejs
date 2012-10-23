@@ -1,8 +1,0 @@
-<div class="alert alert-<%= alrt.type %><% if(alrt.isSticky){%> sticky<%}%>" id="alert-id-<%= alrt.id %>">
-    <button type="button" class="close remove">×</button>
-    <h4><%= can.capitalize(alrt.type)%>!</h4>
-     <%= alrt.alertText %>
-     <% if (alrt.isSticky){ %>
-     <div>(Hover over the alert to view)</div>
-     <% } %>
- </div>
