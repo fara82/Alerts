@@ -22,74 +22,15 @@
   *
   */
 (function(){
-     Alert = can.Model({// Implement local storage handling
-         localStore: function(cb){
-             var name = 'alerts-canjs-jquery-widget',
-             data = JSON.parse( window.localStorage[name] || (window.localStorage[name] = '[]') ),
-             res = cb.call(this, data);
-         },
-         create: function(attrs){
-             var def = new can.Deferred();
-             this.localStore(function(alerts){
-                 attrs.id = attrs.id || parseInt(100000 *Math.random());
-                 alerts.push(attrs);
-             });
-
-             def.resolve({id : attrs.id});
-             return def
-         },
-         destroy: function(id){
-             var def = new can.Deferred();
-             this.localStore(function(alerts){
-                 for (var i = 0; i < alerts.length; i++) {
-                     if (alerts[i].id === id) {
-                         alerts.splice(i, 1);
-                         break;
-                     }
-                 }
-                 def.resolve({});
-             });
-             return def
-         }/*,
-         findAll: function(params){
-         var def = new can.Deferred();
-         this.localStore(function(alerts){
-             var instances = [],
-             self = this;
-             can.each(alerts, function(alt) {
-                 instances.push(new self(alt));
-             });
-             def.resolve({data: instances});
-         });
-         return def
-     },*/
-     },{
-         /**
-          * Creates a timer for the alert which decides when the alert should expire.
-          */
-         setTimerToDestroy: function(){
-             var alrt = this;
-             this.timer = setTimeout(function(){ alrt.destroy()},alrt.attr('timeOut'));
-         },
-         /**
-          * Clear the timer so the alert cannot expire.
-          */
-         clearTimer: function(){
-             clearTimeout(this.timer);
-         }
-     });
-
      /**
       * Alerts control
       *
       * Creates an alerts system in the element passed in the options
       */
      Alerts = can.Control({
-         pluginName: 'alerts',
          defaults: {
-             timeOut : 4000,
-             type	: 'success',
-             isSticky: true
+             timeOut : 4000, // 4 seconds
+             isSticky: true  // allow the alert to stay (not disappear) on mouseover
          }
      },{
          /**
@@ -103,6 +44,65 @@
             element.addClass('wrapper');
         },
         /**
+         * Validates the alert created.
+         * @param array options
+         *    options for the alert
+         */
+        _validate: function(options) {
+            if (!options.length) {
+
+            }
+            else if (!options.type.length) {
+
+            }
+
+            //return 'You have an error in sending your manual alert. Please try again.'
+            return {};
+        },
+        _applyDefaults: function(options) {
+            var alertOptions = {};
+            can.extend(
+                alertOptions, // empty array that will hold results
+                this.options, // defaults per control
+                options // options for this specific alert
+            );
+
+            return alertOptions;
+        },
+        /**
+         * Creates the alert.
+         * @param array options
+         *    options for the alert
+         */
+        _create: function(options) {
+            // set the defaults
+            var alertOptions = this._applyDefaults(options);
+
+            // validate options
+            var errors = this._validate(alertOptions);
+
+            // if there are errors handle them
+            if (errors.length) {
+                return;
+            }
+
+            return alertOptions;
+        },
+        /**
+        * Creates a timer for the alert which decides when the alert should expire.
+        */
+       _setTimerToDestroy: function(alert_id){
+           this.timer = setTimeout(function(){
+               alrt.destroy()
+           }, alrt.attr('timeOut'));
+       },
+        /**
+        * Clear the timer so the alert cannot expire.
+        */
+        _clearTimer: function(){
+            clearTimeout(this.timer);
+        },
+        /**
          * Creates the Alert and saves it.
          *
          * @param options
@@ -112,19 +112,28 @@
          * 	  isSticky
          * 	  timeOut
          */
-        sendAlert: function(options){
-            var alertText = options.alertText;
-            var alertOptions = {};
+        sendAlert: function(alertText, type){
+            // create the alert
+            var alrt = this._create({
+                alertText: alertText,
+                type: type
+            });
 
-            if ((alertText !== '') && alertText){
-                can.extend(alertOptions, this.options, options);
-            } else {
-                can.extend(alertOptions, this.options, {
-                    alertText : 'You have an error in sending your manual alert. Please try again.',
-                    type	: 'error'
-                });
-            }
-            Alert.model(alertOptions).save();
+            this.element.append(can.view('js/views/alertView.ejs', {alrt: alrt}));
+
+            var alrt = this._create({
+                alertText: alertText,
+                type: type,
+                id: 'ids'
+            });
+
+            var docFrag = can.view('js/views/alertView.ejs', {alrt: alrt});
+            this.element.append(docFrag);
+            alrt.element = this.element.find(".alert:last").fadeIn('slow');
+
+            //alrt.element.remove();
+            //alrt.setTimerToDestroy();
+
         },
         /**
          * Event to remove the alert.
@@ -139,9 +148,10 @@
          * @param ev
          * @param alrt
          */
-        '{Alert} created' : function(list, ev, alrt){
+        '.alert created' : function(list, ev, alrt){
             //this.alertsList.push(alrt);
             //alrt.setCls();
+            alert('hi');
             var append = this.element.append(can.view('js/views/alertView.ejs', {alrt: alrt}));
             alrt.element = append.find("#alert-id-" + alrt.attr('id'));
             $(alrt.element).fadeIn('slow');
@@ -154,7 +164,8 @@
          * @param ev
          * @param alrt
          */
-        '{Alert} destroyed' : function(list, ev, alrt){
+        '.alert destroyed' : function(list, ev, alrt){
+            alert('hello');
             $(alrt.element).fadeOut('slow');
         },
         /**

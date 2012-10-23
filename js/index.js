@@ -7,19 +7,11 @@
             this.alertsSystem = new Alerts("#alerts-display-wrap");
         },
         sendAlert: function(type){
-            var alrtArr = {
-                alertText: this.input.val()
-            };
-
-            // allow change of type here
-            if (type) {
-                can.extend(alrtArr, {type : type});
-            }
-
-            this.alertsSystem.sendAlert(alrtArr);
+            var alertText = this.input.val();
+            this.alertsSystem.sendAlert(alertText, type);
         },
         'a.warn click': function(el){
-            this.sendAlert("warn");
+            this.sendAlert("warning");
             this.input.val("");
         },
         'a.info click': function(el){
