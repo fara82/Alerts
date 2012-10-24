@@ -1,4 +1,4 @@
-ALERTS SYSTEM
+NOTIFICATION SYSTEM
 @author Farhana Basrawala
 @version 1.0
 
@@ -6,17 +6,7 @@ This is a small script that allow you to quickly and simply create alerts.
 
 Usage:
 
-First include the alerts.js file included in the js folder then follow the example below.
+First include the alerts.js file included in the js/lib/alerts folder then follow the example below.
 
-var alertsSystem = new Alerts("#alerts-display-wrap");
-alertsSystem.sendAlert({
-    alertText: 'An error has occurred. Please try again',
-    type     : 'error' // type of alert possible: 'warning', 'success', 'error', 'info'
-    isSticky : true // if true then the alert will stay after a mouseover
-    timeOut  : 5000 // 5 seconds til the alert fades out
-});
-
-alertText: string
-type     : string
-isSticky : bool
-timeOut: int
+* var NS = new Alerts("#alerts-display-wrap");
+* NS.sendAlert('An error has occurred. Please try again', 'error');
