@@ -8,17 +8,7 @@
   * Usage:
   *
   * var alertsSystem = new Alerts("#alerts-display-wrap");
-  * alertsSystem.sendAlert({
-  * 	alertText: 'An error has occurred. Please try again',
-  * 	type	 : 'error' // type of alert possible: 'warning', 'success', 'error', 'info'
-  * 	isSticky : true // if true then the alert will stay after a mouseover
-  * 	timeOut  : 5000 // 5 seconds til the alert fades out
-  * });
-  *
-  *	alertText: string
-  * type	 : string
-  * isSticky : bool
-  * timeOut: int
+  * alertsSystem.sendAlert('An error has occurred. Please try again', 'error');
   *
   */
 (function(){
@@ -89,6 +79,23 @@
             element.addClass('wrapper');
         },
         /**
+         * Validate that the two options: alertText and type are valid
+         *
+         * @param alertOptions
+         * @returns {Boolean}
+         */
+        _validate: function (alertOptions) {
+            var alertTypes = new Array('success', 'error', 'warning', 'info');
+            if ( (typeof alertOptions.alertText != 'string')// check if alertText is a string
+                || (typeof alertOptions.type != 'string')// check if type is a string
+                || (alertOptions.alertText.length < 1)
+                || (jQuery.inArray(alertOptions.type, alertTypes) == -1)//check that the type is valids
+            ){
+                return false;
+            }
+            return true;
+        },
+        /**
          * Returns a list of options after the defaults have been applied to them
          *
          * @param options
@@ -107,17 +114,16 @@
         /**
          * Creates the Alert and saves it.
          *
-         * @param options
-         * 	possible options
-         * 	  alertText
-         * 	  type
-         * 	  isSticky
-         * 	  timeOut
+         * @param alertText
+         * @param type
+         * 	possible: 'error', 'success', 'info', 'warning'
          */
         sendAlert: function(alertText, type){
             // apply defaults
             var alertOptions = this._applyDefaults(alertText, type);
-            Alert.model(alertOptions).save();
+            if (this._validate(alertOptions)) {
+                Alert.model(alertOptions).save();
+            }
         },
         /**
          * Event that occurs when an alert has been created
@@ -166,6 +172,9 @@
         },
         /**
          * Event to remove the alert.
+         *
+         * @param el
+         * @param ev
          */
         '.remove click': function(el, ev){
            el.closest('.alert').data('alrt').destroy();
