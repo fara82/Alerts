@@ -1,5 +1,5 @@
 /**
-  * ALERTS SYSTEM
+  * NOTIFICATION SYSTEM
   * @author Farhana Basrawala
   * @version 1.0
   *
@@ -7,7 +7,7 @@
   *
   * Usage:
   *
-  * var alertsSystem = new Alerts("#alerts-display-wrap");
+  * var alertsSystem = new Alert("#alerts-display-wrap");
   * alertsSystem.sendAlert('An error has occurred. Please try again', 'error');
   *
   */
